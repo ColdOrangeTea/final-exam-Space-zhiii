@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
     public Text TextScore;
     public Image first, second, third;
     int life = 3;
-    int score;
+    public int score; // 改成public
 
     public void GetScore(int amount)
     {
@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour
     public void TakeDamage()
     {
         life--;
+        Debug.Log("life: " + life);
+        Debug.Log(first.enabled);
         if (life == 3)
         {
             first.enabled = true;

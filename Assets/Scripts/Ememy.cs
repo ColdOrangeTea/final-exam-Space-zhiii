@@ -14,22 +14,27 @@ public class Ememy : MonoBehaviour
         rb.velocity = Vector2.left * moveSpeed;
     }
 
+    // 怪物被子彈打到
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Bullet"))
+        if (collision.CompareTag("Bullet"))
         {
             Destroy(collision.gameObject);
             TakeDamage();
         }
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        // 怪物碰到玩家
+        if (collision.gameObject.CompareTag("Player"))
         {
             FindObjectOfType<UIManager>().TakeDamage();
             TakeDamage();
         }
-        if(collision.gameObject.CompareTag("Border"))
+
+        // 怪物碰到邊界
+        if (collision.gameObject.CompareTag("Border"))
         {
             FindObjectOfType<UIManager>().TakeDamage();
             Destroy(this.gameObject);
@@ -37,9 +42,9 @@ public class Ememy : MonoBehaviour
     }
     void TakeDamage()
     {
-        GameObject explo = Instantiate(exploPrefabs, transform.position, Quaternion.identity);
-        FindObjectOfType<UIManager>().GetScore(50);
-        Destroy(explo,0.415f);
+        GameObject explo = Instantiate(exploPrefabs, transform.position, Quaternion.identity); // 產生爆炸
+        FindObjectOfType<UIManager>().GetScore(1); // 加 1 分數
+        Destroy(explo, 0.415f);
         Destroy(gameObject);
     }
 

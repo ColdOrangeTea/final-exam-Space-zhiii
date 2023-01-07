@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -27,25 +28,54 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        // 玩家(還沒開始/已經結束)玩遊戲
         if (!isPlaying)
-        return;
+            return; // 立刻跳回上面
 
-        timer += Time.deltaTime;
-        if(timer > period)
-        {
-            timer = 0;
-            y = Random.Range(12.5f, -12.5f);
-            y1 = Random.Range(12f, -12f);
-            GameObject enemy = Instantiate(Enemy,new Vector3(23f, y, 0), transform.rotation);
-            GameObject enemy1 = Instantiate(Enemy1,new Vector3(25f, y1, 0), transform.rotation);
-            enemy.transform.parent = enemyHolder;
-            enemy1.transform.parent = enemyHolder1;
-        }
+        timeCounting();
+        EndingJudgment();
 
         if (Input.GetKeyDown("escape"))
         {
             Application.Quit();
         }
+    }
+
+    // 計時隨機跑出怪物
+    void timeCounting()
+    {
+        timer += Time.deltaTime;
+        if (timer > period)
+        {
+            timer = 0;
+            y = Random.Range(12.5f, -12.5f);
+            y1 = Random.Range(12f, -12f);
+            GameObject enemy = Instantiate(Enemy, new Vector3(23f, y, 0), transform.rotation);
+            GameObject enemy1 = Instantiate(Enemy1, new Vector3(25f, y1, 0), transform.rotation);
+            enemy.transform.parent = enemyHolder;
+            enemy1.transform.parent = enemyHolder1;
+        }
+    }
+
+    // 決定結局分支
+    void EndingJudgment()
+    {
+        // 抓UIManager的物件
+        GameObject UI = GameObject.Find("UI");
+        int scoreJudge = UI.GetComponent<UIManager>().score; // 抓UIManager的score資料 存進scoreJudge
+        bool firstEnable = UI.GetComponent<UIManager>().first.enabled; // 抓UIManager的first資料 存進firstEnable
+
+        // 好結局
+        if (scoreJudge >= 10)
+        {
+            Debug.Log("好結局達成!!");
+        }
+
+        // // 壞結局
+        // if (firstEnable == false)
+        // {
+        //     Debug.Log("壞結局了!!");
+        // }
     }
 
     public void GameOver()
@@ -68,11 +98,11 @@ public class GameManager : MonoBehaviour
     }
 
     public void QuitGame()
-   {
+    {
 #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
+        UnityEditor.EditorApplication.isPlaying = false;
 #else
             Application.Quit();
 #endif
-   }
+    }
 }
