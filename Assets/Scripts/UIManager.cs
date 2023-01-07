@@ -21,7 +21,7 @@ public class UIManager : MonoBehaviour
     {
         life--;
         Debug.Log("life: " + life);
-        Debug.Log(first.enabled);
+        Debug.Log("first.enabled: " + first.enabled);
         if (life == 3)
         {
             first.enabled = true;
@@ -46,6 +46,8 @@ public class UIManager : MonoBehaviour
             second.enabled = false;
             third.enabled = false;
 
+            // 放在GameManager的Update會因為前面(!isPlaying)的緣故而判定不了，只能在血量這邊也放一個結局判定
+            FindObjectOfType<GameManager>().EndingJudgment();
             FindObjectOfType<GameManager>().GameOver();
         }
     }

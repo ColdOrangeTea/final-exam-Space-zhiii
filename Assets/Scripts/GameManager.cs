@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
     }
 
     // 決定結局分支
-    void EndingJudgment()
+    public void EndingJudgment()
     {
         // 抓UIManager的物件
         GameObject UI = GameObject.Find("UI");
@@ -69,13 +69,17 @@ public class GameManager : MonoBehaviour
         if (scoreJudge >= 10)
         {
             Debug.Log("好結局達成!!");
+            //跳到好結局Scene 
+            SceneManager.LoadScene("GoodEnd");
         }
 
-        // // 壞結局
-        // if (firstEnable == false)
-        // {
-        //     Debug.Log("壞結局了!!");
-        // }
+        // 壞結局
+        if (firstEnable == false)
+        {
+            Debug.Log("壞結局了!!");
+            //跳到壞結局Scene
+            SceneManager.LoadScene("BadEnd");
+        }
     }
 
     public void GameOver()
