@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
         bool firstEnable = UI.GetComponent<UIManager>().first.enabled; // 抓UIManager的first資料 存進firstEnable
 
         // 好結局
-        if (scoreJudge >= 10)
+        if (scoreJudge >= 50)
         {
             Debug.Log("好結局達成!!");
             //跳到好結局Scene 
